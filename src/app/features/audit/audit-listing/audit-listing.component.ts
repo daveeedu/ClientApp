@@ -217,23 +217,25 @@ getAudit(filterValue, startDate, EndDate) {
   //   );
   // }
 
-  // onChange() {
-  //   if (this.range.value.start !== null && this.range.value.end !== null) {
-  //     this.getAudit(
-  //       this.categoryFilteringControl.value,
-  //       this.range.value.start.toISOString(),
-  //       this.range.value.end.toISOString()
-  //     );
-  //   }
-  // }
+  onChange() {
+    if (this.range.value.start !== null && this.range.value.end !== null) {
+      this.getAudit(
+        this.categoryFilteringControl.value,
+        this.range.value.start.toISOString(),
+        this.range.value.end.toISOString()
+      );
+    }
+  }
 
   doFilter = (value: string) => {
     this.filterReport = value;
+    if (this.range.value.start && this.range.value.end) {
     this.getAudit(
       this.categoryFilteringControl.value,
       this.range.value.start.toISOString(),
       this.range.value.end.toISOString()
     );
+    }
   };
 
   ngOnDestroy() {

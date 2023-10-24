@@ -1,4 +1,4 @@
-<!-- <app-loader *ngIf="isLoadingResults"></app-loader> -->
+<app-loader *ngIf="isLoadingResults"></app-loader>
 <div class="m-5 ">
   <div class="d-flex align-items-center justify-content-between">
     <div>
@@ -32,17 +32,16 @@
   <div class=" mt-5 ">
     <div class="  ">
       <!--    <mat-card [ngClass]="{'overflow-x-auto': shouldOverflow}"> Set This Value???-->
-      <mat-card [ngClass]="{'overflow-x-auto': false}">
+      <mat-card >
         <mat-card-header>
           <mat-card-title>Audit</mat-card-title>
           <mat-card-actions></mat-card-actions>
         </mat-card-header>
         <mat-card-content>
-          <div class="overflow-x-scroll ">
             <table mat-table [dataSource]="dataSource" matSort>
               <ng-container matColumnDef="transactionType">
                 <th
-                  style="width: 7%"
+                  style="width: 10%"
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
@@ -60,7 +59,7 @@
 
               <ng-container matColumnDef="transactionDate">
                 <th
-                  style="width: 11%"
+                  style="width: 10%"
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
@@ -78,7 +77,7 @@
 
               <ng-container matColumnDef="transactingAccountNumber">
                 <th
-                  style="width: 10%"
+                  style="width: 15%"
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
@@ -96,10 +95,11 @@
 
               <ng-container matColumnDef="transactionAmount">
                 <th
-                  style="width: 7%"
+                  style="width: 25%"
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
+                  style="width: 200px"
                 >
               <span
                 class="font-extrabold text-base uppercase"
@@ -114,10 +114,11 @@
 
               <ng-container matColumnDef="transactingBVN">
                 <th
-                  style="width: 6%"
+                  style="width: 25%"
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
+                  style="width: 200px"
                 >
               <span
                 class="font-extrabold text-base uppercase"
@@ -132,7 +133,7 @@
 
               <ng-container matColumnDef="beneficiaryAccountNumber">
                 <th
-                  style="width: 10%"
+                  style="width: 15%"
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
@@ -150,10 +151,11 @@
 
               <ng-container matColumnDef="authorizer">
                 <th
-                  style="width: 8%"
+                  style="width: 10%"
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
+                  style="width: 200px"
                 >
               <span
                 class="font-extrabold text-base uppercase"
@@ -168,7 +170,7 @@
 
               <ng-container matColumnDef="branchCode">
                 <th
-                  style="width: 8%"
+                  style="width: 15%"
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
@@ -186,7 +188,7 @@
 
               <ng-container matColumnDef="status">
                 <th
-                  style="width: 6%"
+                  style="width: 10%"
                   mat-header-cell
                   *matHeaderCellDef
                   mat-sort-header
@@ -206,7 +208,6 @@
               <tr mat-header-row *matHeaderRowDef="auditColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: auditColumns"></tr>
             </table>
-          </div>
         </mat-card-content>
       </mat-card>
       <!-- - pagination  -->
