@@ -1,0 +1,46 @@
+// .bg-login {
+//   //background-image: url('../../../../assets/images/bg1.svg');
+//   height: 100vh;
+//   width: 100vw;
+// }
+
+mat-error {
+  color: var(--danger);
+}
+
+// .float {
+//   position: fixed;
+//   width: 60px;
+//   height: 60px;
+//   bottom: 40px;
+//   right: 40px;
+//   color: #fff;
+//   border-radius: 50px;
+//   text-align: center;
+// }
+.action {
+p {
+  cursor: pointer;
+}
+}
+
+mat-card {
+  margin: 10rem 0;
+}
+
+.row{
+  justify-content: center;
+}
+
+button{
+  width: 7rem;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  mat-card{
+    width: max-content;
+  }
+  .offset-md-4{
+    margin-left: 18%;
+  }
+ }

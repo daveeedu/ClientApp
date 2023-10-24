@@ -1,0 +1,72 @@
+<mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+    [ngStyle]="{ 'width.px': sidenavWidth }"
+    (mouseenter)="increase()"
+    (mouseleave)="decrease()"
+  >
+    <app-sidebar (close)="drawer.close()"></app-sidebar>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="">
+        <mat-toolbar [ngClass]="{ hovered: hovered }">
+          <div class="">
+            <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            (click)="drawer.toggle(); setHoverState()"
+          >
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+          </button>
+          </div>
+
+          <div class="flex justify-end grow  offset-md-9">
+            <ul class="flex justify-around" style="flex-basis: 300px;">
+<!--              <li class="flex justify-center items-center">-->
+<!--                <button mat-icon-button (click)="goToApprovals()">-->
+<!--                  <mat-icon-->
+
+<!--                    matBadgeColor="warn"-->
+<!--                    fontSet="material-icons-outlined"-->
+<!--                  >assignment</mat-icon-->
+<!--                  >-->
+<!--                </button>-->
+<!--              </li>-->
+              <li class="flex justify-center items-center">
+<!--                <mat-icon class="mr-1" fontSet="material-icons-outlined"-->
+<!--                >verified_user</mat-icon-->
+<!--                >-->
+                <span class="username">{{userDetail.Fullname}}</span>
+                <button mat-button [matMenuTriggerFor]="menu">
+                  <mat-icon class="ml-1">arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="signOut()" name="signOut">
+                    <mat-icon fontSet="material-icons-outlined" class="material-icons"
+                    >exit_to_app</mat-icon
+                    >
+                    Sign Out
+                  </button>
+<!--                  <button mat-menu-item (click)="changePassword()" name="changePassword">-->
+<!--                    <mat-icon fontSet="material-icons-outlined">lock_open</mat-icon>-->
+<!--                    Change Password-->
+<!--                  </button>-->
+                </mat-menu>
+              </li>
+            </ul>
+          </div>
+        </mat-toolbar>
+    </div>
+
+    <!-- Add Content Here -->
+    <div class="main-contents">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

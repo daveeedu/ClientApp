@@ -1,0 +1,134 @@
+<main >
+  <div class="offset-md-4 col-md-4">
+    <mat-card>
+      <form [formGroup]="loginForm">
+        <div class="items-center py-5 row">
+          <img src="../../../../assets/img/Shape.png" height="73px" width="153px;">
+        </div>
+        <div class="px-2">
+          <ng-container
+            [ngTemplateOutlet]="hasRequestedForToken ? token : login"
+          ></ng-container>
+        </div>
+        
+      </form>
+      <div class="flex justify-end py-5">
+        <!-- <div class="col-md-6">
+          <a
+            *ngIf="!hasRequestedForToken"
+            class="underline align-baseline text-secondary mt-1"
+            [routerLink]="['/auth/forgotpassword']"
+            routerLinkActive="router-link-active"
+          >Forgot Password ?</a>
+        </div> -->
+
+          <p
+            *ngIf="hasRequestedForToken"
+            class="align-baseline text-secondary mt-1"
+            (click)="signIn()"
+          >
+            Didn't receive the token? Retry
+          </p>
+          <p
+            *ngIf="hasRequestedForToken"
+            class="align-baseline text-danger mt-1"
+            (click)="cancelSignin()"
+          >
+            Cancel
+          </p>
+
+
+          <button
+            *ngIf="!hasRequestedForToken"
+            mat-flat-button
+            color="primary"
+            class="float-right"
+            [disabled]="loading"
+            (click)="signIn()"
+          >
+            {{ loading ? '' : 'Log In' }}
+          </button>
+
+          <button
+            *ngIf="hasRequestedForToken"
+            mat-flat-button
+            color="primary"
+            [class.spinner]="loading"
+            [disabled]="loading"
+            (click)="twoFactorSignIn()"
+          >
+            {{ loading ? '' : 'Continue' }}
+          </button>
+
+      </div>
+    </mat-card>
+    <!-- <div class="text-center text-secondary mt-3">
+      <p class="pb-10 text-xs">Copyright © {{year}} 3B</p>
+    </div> -->
+  </div>
+</main>
+
+<ng-template #login [formGroup]="loginForm">
+  <div class="row">
+    <mat-form-field class="col-md-12">
+      <mat-label>Supervisor Username</mat-label>
+      <input
+        matInput
+        type="email"
+        placeholder="example@email.com"
+        formControlName="email"
+        [errorStateMatcher]="matcher"
+        [ngClass]="{
+        'border-red-500': submitted && formControls.email.invalid
+      }"
+        name="email"
+        id="email"
+      />
+      <mat-error>Valid Email Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-md-12">
+      <mat-label>Supervisor Password</mat-label>
+      <input
+        matInput
+        [type]="hide ? 'password' : 'text'"
+        placeholder="********"
+        formControlName="password"
+        [errorStateMatcher]="matcher"
+        name="password"
+        id="password"
+      />
+      <mat-icon
+        class="material-icons cursor-pointer"
+        fontSet="material-icons-outlined"
+        matSuffix
+        (click)="hide = !hide"
+      >
+        {{ hide ? 'visibility_off' : 'visibility' }}
+      </mat-icon>
+      <mat-error *ngIf="hasError('password', 'required')">
+        Password is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+</ng-template>
+
+<ng-template #token>
+  <p>Enter the token sent to your email</p>
+  <mat-form-field class="w-full mb-5">
+    <mat-label>Token</mat-label>
+    <input
+      matInput
+      placeholder="******"
+      required
+      type="text"
+      [formControl]="tokenControl"
+      [errorStateMatcher]="matcher"
+      name="token"
+      id="token"
+    />
+    <mat-error *ngIf="tokenControlHasError('required')">
+      Token is required</mat-error
+    >
+  </mat-form-field>
+</ng-template>

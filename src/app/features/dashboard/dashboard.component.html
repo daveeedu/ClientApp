@@ -1,0 +1,972 @@
+<div>
+  <app-loader *ngIf="isLoadingResults"></app-loader>
+
+  <mat-tab-group
+    mat-align-tabs="start"
+    (selectedTabChange)="onTabChange($event)"
+  >
+    <div style="display: flex; justify-content: space-between">
+      <div>
+        <mat-tab label="Bank">
+          <div class="tab-content-container">
+            <div class="d-flex justify-content-end">
+              <mat-form-field appearance="outline">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input
+                  [formGroup]="range"
+                  [rangePicker]="pickerBank"
+                >
+                  <input
+                    matStartDate
+                    formControlName="start"
+                    #dateRangeStart
+                    placeholder="Start date"
+                  />
+                  <input
+                    matEndDate
+                    formControlName="end"
+                    #dateRangeEnd
+                    placeholder="End date"
+                    (dateChange)="onChange(0)"
+                  />
+                </mat-date-range-input>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerBank"
+                ></mat-datepicker-toggle>
+                <mat-date-range-picker #pickerBank></mat-date-range-picker>
+
+                <mat-error
+                  *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+                  >Invalid start date</mat-error
+                >
+                <mat-error
+                  *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+                  >Invalid end date</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div class="custom-card-container">
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Ratings</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.1887 4.51714L9.22154 3.94058L7.4481 0.345269C7.39966 0.246832 7.31998 0.167144 7.22154 0.118707C6.97466 -0.00316805 6.67466 0.0983945 6.55123 0.345269L4.77779 3.94058L0.810601 4.51714C0.701226 4.53277 0.601226 4.58433 0.524663 4.66246C0.432103 4.75759 0.381099 4.88558 0.382856 5.0183C0.384614 5.15103 0.438991 5.27762 0.534038 5.37027L3.40435 8.16871L2.72623 12.1203C2.71032 12.2122 2.7205 12.3067 2.75559 12.3932C2.79068 12.4796 2.84929 12.5545 2.92477 12.6093C3.00025 12.6641 3.08958 12.6967 3.18263 12.7033C3.27568 12.71 3.36873 12.6904 3.45123 12.6468L6.99966 10.7812L10.5481 12.6468C10.645 12.6984 10.7575 12.7156 10.8653 12.6968C11.1372 12.65 11.32 12.3921 11.2731 12.1203L10.595 8.16871L13.4653 5.37027C13.5434 5.29371 13.595 5.19371 13.6106 5.08433C13.6528 4.81089 13.4622 4.55777 13.1887 4.51714Z"
+                      fill="#219653"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Rated Transactions</p>
+                  <p class="count">{{ defaultReport?.totalCounts?.totalRT }}</p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Ratings</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.1887 4.51714L9.22154 3.94058L7.4481 0.345269C7.39966 0.246832 7.31998 0.167144 7.22154 0.118707C6.97466 -0.00316805 6.67466 0.0983945 6.55123 0.345269L4.77779 3.94058L0.810601 4.51714C0.701226 4.53277 0.601226 4.58433 0.524663 4.66246C0.432103 4.75759 0.381099 4.88558 0.382856 5.0183C0.384614 5.15103 0.438991 5.27762 0.534038 5.37027L3.40435 8.16871L2.72623 12.1203C2.71032 12.2122 2.7205 12.3067 2.75559 12.3932C2.79068 12.4796 2.84929 12.5545 2.92477 12.6093C3.00025 12.6641 3.08958 12.6967 3.18263 12.7033C3.27568 12.71 3.36873 12.6904 3.45123 12.6468L6.99966 10.7812L10.5481 12.6468C10.645 12.6984 10.7575 12.7156 10.8653 12.6968C11.1372 12.65 11.32 12.3921 11.2731 12.1203L10.595 8.16871L13.4653 5.37027C13.5434 5.29371 13.595 5.19371 13.6106 5.08433C13.6528 4.81089 13.4622 4.55777 13.1887 4.51714Z"
+                      fill="#219653"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>% Total Rated Transactions</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalPercRT }}%
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Branches</p>
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.55458 0.146526C5.6835 0.051506 5.83944 0.000244141 5.99958 0.000244141C6.15973 0.000244141 6.31567 0.051506 6.44458 0.146526L11.1931 3.64903C11.7551 4.06403 11.4921 4.93803 10.8231 4.99903H1.17608C0.507085 4.93803 0.244585 4.06403 0.806085 3.64903L5.55508 0.146526H5.55458ZM5.99958 3.49953C6.1985 3.49953 6.38926 3.42051 6.52991 3.27986C6.67057 3.1392 6.74958 2.94844 6.74958 2.74953C6.74958 2.55061 6.67057 2.35985 6.52991 2.2192C6.38926 2.07854 6.1985 1.99953 5.99958 1.99953C5.80067 1.99953 5.60991 2.07854 5.46925 2.2192C5.3286 2.35985 5.24958 2.55061 5.24958 2.74953C5.24958 2.94844 5.3286 3.1392 5.46925 3.27986C5.60991 3.42051 5.80067 3.49953 5.99958 3.49953ZM8.74958 5.49953H9.99908V8.49953H8.74908V5.49953H8.74958ZM7.74958 8.49953V5.49953H6.49958V8.49953H7.74958ZM5.49958 8.50003V5.50003H4.24958V8.50003H5.49958ZM3.25008 8.50003V5.50003H2.00008V8.50003H3.25008ZM2.12508 9.00003C1.69411 9.00003 1.28078 9.17123 0.976036 9.47598C0.67129 9.78072 0.500085 10.194 0.500085 10.625V10.875C0.500585 11.0825 0.668585 11.2505 0.875085 11.2505H11.1236C11.223 11.2505 11.3184 11.211 11.3887 11.1407C11.4591 11.0704 11.4986 10.975 11.4986 10.8755V10.6255C11.4986 10.1945 11.3274 9.78123 11.0226 9.47648C10.7179 9.17173 10.3046 9.00053 9.87358 9.00053H2.12558L2.12508 9.00003Z"
+                      fill="#EA1401"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of branches</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalBranches }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Services</p>
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 13 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.1875 0.875H1.8125C1.56386 0.875 1.3254 0.973772 1.14959 1.14959C0.973772 1.3254 0.875 1.56386 0.875 1.8125V11.1875C0.875 11.4361 0.973772 11.6746 1.14959 11.8504C1.3254 12.0262 1.56386 12.125 1.8125 12.125H11.1875C11.4361 12.125 11.6746 12.0262 11.8504 11.8504C12.0262 11.6746 12.125 11.4361 12.125 11.1875V1.8125C12.125 1.56386 12.0262 1.3254 11.8504 1.14959C11.6746 0.973772 11.4361 0.875 11.1875 0.875Z"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M5.5625 8.6875L7.125 9.9375L9.625 6.8125"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M3.375 3.6875H9.625"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M3.375 6.1875H5.875"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of services</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalServices }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Users</p>
+                  <svg
+                    width="14"
+                    height="13" 
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.9997 5.33325H1.99967C1.55765 5.33325 1.13372 5.50885 0.821163 5.82141C0.508602 6.13397 0.333008 6.55789 0.333008 6.99992V12.8333H13.6663V6.99992C13.6663 6.55789 13.4907 6.13397 13.1782 5.82141C12.8656 5.50885 12.4417 5.33325 11.9997 5.33325ZM11.9997 8.66659H8.66634V6.99992H11.9997V8.66659ZM11.1663 4.49992H2.83301V0.333252H11.1663V4.49992Z"
+                      fill="#F2C94C"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of users</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalUsers }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <div class="custom-card chart-card">
+                <div class="custom-card-header">
+                  <p>General Rating statistics</p>
+                </div>
+                <div class="custom-card-content">
+                  <chart
+                    *ngIf="defaultReport?.generalRatings !== null; noRating"
+                    [type]="generalRatingType"
+                    [data]="generalRatingData"
+                    [options]="options"
+                    style="height: 400px"
+                  ></chart>
+
+                  <ng-template>
+                    <h3 class="text-center">No Rating is available</h3>
+                  </ng-template>
+                </div>
+              </div>
+
+              <div class="custom-card chart-card">
+                <div class="custom-card-header">
+                  <p>Top 5 branches</p>
+                </div>
+                <div class="custom-card-content">
+                  <chart
+                    *ngIf="defaultReport?.topBranches !== null; else noBranches"
+                    [type]="horizontalBarChart"
+                    [data]="topFiveBranchesData"
+                    [options]="options"
+                    style="height: 400px"
+                  ></chart>
+
+                  <ng-template #noBranches>
+                    <h3 class="text-center">No branches is available</h3>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <div class="custom-card chart-card">
+                <div class="custom-card-header">
+                  <p>Top 5 users</p>
+                </div>
+                <div class="custom-card-content">
+                  <table class="styled-table">
+                    <thead>
+                      <tr>
+                        <th>Staff name</th>
+                        <th>Total number of transaction</th>
+                        <th>Total rated transaction</th>
+                        <th>Average rating</th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      *ngIf="defaultReport?.topUsers !== null; else noUser"
+                    >
+                      <tr *ngFor="let user of defaultReport?.topUsers">
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.totalNT }}</td>
+                        <td>{{ user.totalRT }}</td>
+                        <td>{{ user.average }}</td>
+                      </tr>
+                    </tbody>
+
+                    <ng-template #noUser>
+                      <tbody>
+                        <tr>
+                          <td colSpan="4">
+                            <p class="text-center">No Users available</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </ng-template>
+                  </table>
+                </div>
+              </div>
+
+              <div class="custom-card chart-card">
+                <div class="custom-card-header">
+                  <p>Top 5 Services</p>
+                </div>
+                <div class="custom-card-content">
+                  <chart
+                    *ngIf="defaultReport?.topServices !== null; else noService"
+                    [type]="horizontalBarChart"
+                    [data]="topFiveServicesData"
+                    [options]="options"
+                    style="height: 400px"
+                  ></chart>
+
+                  <ng-template #noService>
+                    <h3 class="text-center">No Service is available</h3>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Branches">
+          <div class="tab-content-container">
+            <div class="d-flex justify-content-end">
+              <mat-form-field appearance="outline">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input
+                  [formGroup]="range"
+                  [rangePicker]="pickerBranches"
+                >
+                  <input
+                    matStartDate
+                    formControlName="start"
+                    #dateRangeStart
+                    placeholder="Start date"
+                  />
+                  <input
+                    matEndDate
+                    formControlName="end"
+                    #dateRangeEnd
+                    placeholder="End date"
+                    (dateChange)="onChange(1)"
+                  />
+                </mat-date-range-input>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerBranches"
+                ></mat-datepicker-toggle>
+                <mat-date-range-picker #pickerBranches></mat-date-range-picker>
+
+                <mat-error
+                  *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+                  >Invalid start date</mat-error
+                >
+                <mat-error
+                  *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+                  >Invalid end date</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div class="custom-card-container">
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Ratings</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.1887 4.51714L9.22154 3.94058L7.4481 0.345269C7.39966 0.246832 7.31998 0.167144 7.22154 0.118707C6.97466 -0.00316805 6.67466 0.0983945 6.55123 0.345269L4.77779 3.94058L0.810601 4.51714C0.701226 4.53277 0.601226 4.58433 0.524663 4.66246C0.432103 4.75759 0.381099 4.88558 0.382856 5.0183C0.384614 5.15103 0.438991 5.27762 0.534038 5.37027L3.40435 8.16871L2.72623 12.1203C2.71032 12.2122 2.7205 12.3067 2.75559 12.3932C2.79068 12.4796 2.84929 12.5545 2.92477 12.6093C3.00025 12.6641 3.08958 12.6967 3.18263 12.7033C3.27568 12.71 3.36873 12.6904 3.45123 12.6468L6.99966 10.7812L10.5481 12.6468C10.645 12.6984 10.7575 12.7156 10.8653 12.6968C11.1372 12.65 11.32 12.3921 11.2731 12.1203L10.595 8.16871L13.4653 5.37027C13.5434 5.29371 13.595 5.19371 13.6106 5.08433C13.6528 4.81089 13.4622 4.55777 13.1887 4.51714Z"
+                      fill="#219653"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Rated Transaction</p>
+                  <p class="count">{{ defaultReport?.totalCounts?.totalRT }}</p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Ratings</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.1887 4.51714L9.22154 3.94058L7.4481 0.345269C7.39966 0.246832 7.31998 0.167144 7.22154 0.118707C6.97466 -0.00316805 6.67466 0.0983945 6.55123 0.345269L4.77779 3.94058L0.810601 4.51714C0.701226 4.53277 0.601226 4.58433 0.524663 4.66246C0.432103 4.75759 0.381099 4.88558 0.382856 5.0183C0.384614 5.15103 0.438991 5.27762 0.534038 5.37027L3.40435 8.16871L2.72623 12.1203C2.71032 12.2122 2.7205 12.3067 2.75559 12.3932C2.79068 12.4796 2.84929 12.5545 2.92477 12.6093C3.00025 12.6641 3.08958 12.6967 3.18263 12.7033C3.27568 12.71 3.36873 12.6904 3.45123 12.6468L6.99966 10.7812L10.5481 12.6468C10.645 12.6984 10.7575 12.7156 10.8653 12.6968C11.1372 12.65 11.32 12.3921 11.2731 12.1203L10.595 8.16871L13.4653 5.37027C13.5434 5.29371 13.595 5.19371 13.6106 5.08433C13.6528 4.81089 13.4622 4.55777 13.1887 4.51714Z"
+                      fill="#219653"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>% Total Rated Transaction</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalPercRT }}%
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Branches</p>
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.55458 0.146526C5.6835 0.051506 5.83944 0.000244141 5.99958 0.000244141C6.15973 0.000244141 6.31567 0.051506 6.44458 0.146526L11.1931 3.64903C11.7551 4.06403 11.4921 4.93803 10.8231 4.99903H1.17608C0.507085 4.93803 0.244585 4.06403 0.806085 3.64903L5.55508 0.146526H5.55458ZM5.99958 3.49953C6.1985 3.49953 6.38926 3.42051 6.52991 3.27986C6.67057 3.1392 6.74958 2.94844 6.74958 2.74953C6.74958 2.55061 6.67057 2.35985 6.52991 2.2192C6.38926 2.07854 6.1985 1.99953 5.99958 1.99953C5.80067 1.99953 5.60991 2.07854 5.46925 2.2192C5.3286 2.35985 5.24958 2.55061 5.24958 2.74953C5.24958 2.94844 5.3286 3.1392 5.46925 3.27986C5.60991 3.42051 5.80067 3.49953 5.99958 3.49953ZM8.74958 5.49953H9.99908V8.49953H8.74908V5.49953H8.74958ZM7.74958 8.49953V5.49953H6.49958V8.49953H7.74958ZM5.49958 8.50003V5.50003H4.24958V8.50003H5.49958ZM3.25008 8.50003V5.50003H2.00008V8.50003H3.25008ZM2.12508 9.00003C1.69411 9.00003 1.28078 9.17123 0.976036 9.47598C0.67129 9.78072 0.500085 10.194 0.500085 10.625V10.875C0.500585 11.0825 0.668585 11.2505 0.875085 11.2505H11.1236C11.223 11.2505 11.3184 11.211 11.3887 11.1407C11.4591 11.0704 11.4986 10.975 11.4986 10.8755V10.6255C11.4986 10.1945 11.3274 9.78123 11.0226 9.47648C10.7179 9.17173 10.3046 9.00053 9.87358 9.00053H2.12558L2.12508 9.00003Z"
+                      fill="#EA1401"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of branches</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalBranches }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Services</p>
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 13 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.1875 0.875H1.8125C1.56386 0.875 1.3254 0.973772 1.14959 1.14959C0.973772 1.3254 0.875 1.56386 0.875 1.8125V11.1875C0.875 11.4361 0.973772 11.6746 1.14959 11.8504C1.3254 12.0262 1.56386 12.125 1.8125 12.125H11.1875C11.4361 12.125 11.6746 12.0262 11.8504 11.8504C12.0262 11.6746 12.125 11.4361 12.125 11.1875V1.8125C12.125 1.56386 12.0262 1.3254 11.8504 1.14959C11.6746 0.973772 11.4361 0.875 11.1875 0.875Z"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M5.5625 8.6875L7.125 9.9375L9.625 6.8125"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M3.375 3.6875H9.625"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M3.375 6.1875H5.875"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of services</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalServices }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Users</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.9997 5.33325H1.99967C1.55765 5.33325 1.13372 5.50885 0.821163 5.82141C0.508602 6.13397 0.333008 6.55789 0.333008 6.99992V12.8333H13.6663V6.99992C13.6663 6.55789 13.4907 6.13397 13.1782 5.82141C12.8656 5.50885 12.4417 5.33325 11.9997 5.33325ZM11.9997 8.66659H8.66634V6.99992H11.9997V8.66659ZM11.1663 4.49992H2.83301V0.333252H11.1663V4.49992Z"
+                      fill="#F2C94C"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of users</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalUsers }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <div class="custom-card chart-card">
+                <div class="custom-card-header">
+                  <p>Top 10 branches</p>
+                </div>
+                <div class="custom-card-content">
+                  <chart
+                    *ngIf="defaultReport?.topBranches !== null; else noBranches"
+                    [type]="horizontalBarChart"
+                    [data]="topTenBranchesData"
+                    [options]="options"
+                    style="height: 450px"
+                  ></chart>
+                </div>
+              </div>
+
+              <div class="custom-card chart-card">
+                <div class="custom-card-header">
+                  <p>Bottom 10 Branches</p>
+                </div>
+                <div class="custom-card-content">
+                  <chart
+                    *ngIf="defaultReport?.topBranches !== null; else noBranches"
+                    [type]="horizontalBarChart"
+                    [data]="bottomTenBranchesData"
+                    [options]="options"
+                    style="height: 450px"
+                  ></chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Users">
+          <div class="tab-content-container">
+            <div class="d-flex justify-content-end">
+              <mat-form-field appearance="outline">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input
+                  [formGroup]="range"
+                  [rangePicker]="pickerUsers"
+                >
+                  <input
+                    matStartDate
+                    formControlName="start"
+                    #dateRangeStart
+                    placeholder="Start date"
+                  />
+                  <input
+                    matEndDate
+                    formControlName="end"
+                    #dateRangeEnd
+                    placeholder="End date"
+                    (dateChange)="onChange(2)"
+                  />
+                </mat-date-range-input>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerUsers"
+                ></mat-datepicker-toggle>
+                <mat-date-range-picker #pickerUsers></mat-date-range-picker>
+
+                <mat-error
+                  *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+                  >Invalid start date</mat-error
+                >
+                <mat-error
+                  *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+                  >Invalid end date</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div class="custom-card-container">
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Ratings</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.1887 4.51714L9.22154 3.94058L7.4481 0.345269C7.39966 0.246832 7.31998 0.167144 7.22154 0.118707C6.97466 -0.00316805 6.67466 0.0983945 6.55123 0.345269L4.77779 3.94058L0.810601 4.51714C0.701226 4.53277 0.601226 4.58433 0.524663 4.66246C0.432103 4.75759 0.381099 4.88558 0.382856 5.0183C0.384614 5.15103 0.438991 5.27762 0.534038 5.37027L3.40435 8.16871L2.72623 12.1203C2.71032 12.2122 2.7205 12.3067 2.75559 12.3932C2.79068 12.4796 2.84929 12.5545 2.92477 12.6093C3.00025 12.6641 3.08958 12.6967 3.18263 12.7033C3.27568 12.71 3.36873 12.6904 3.45123 12.6468L6.99966 10.7812L10.5481 12.6468C10.645 12.6984 10.7575 12.7156 10.8653 12.6968C11.1372 12.65 11.32 12.3921 11.2731 12.1203L10.595 8.16871L13.4653 5.37027C13.5434 5.29371 13.595 5.19371 13.6106 5.08433C13.6528 4.81089 13.4622 4.55777 13.1887 4.51714Z"
+                      fill="#219653"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Rated Transaction</p>
+                  <p class="count">{{ defaultReport?.totalCounts?.totalRT }}</p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Ratings</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.1887 4.51714L9.22154 3.94058L7.4481 0.345269C7.39966 0.246832 7.31998 0.167144 7.22154 0.118707C6.97466 -0.00316805 6.67466 0.0983945 6.55123 0.345269L4.77779 3.94058L0.810601 4.51714C0.701226 4.53277 0.601226 4.58433 0.524663 4.66246C0.432103 4.75759 0.381099 4.88558 0.382856 5.0183C0.384614 5.15103 0.438991 5.27762 0.534038 5.37027L3.40435 8.16871L2.72623 12.1203C2.71032 12.2122 2.7205 12.3067 2.75559 12.3932C2.79068 12.4796 2.84929 12.5545 2.92477 12.6093C3.00025 12.6641 3.08958 12.6967 3.18263 12.7033C3.27568 12.71 3.36873 12.6904 3.45123 12.6468L6.99966 10.7812L10.5481 12.6468C10.645 12.6984 10.7575 12.7156 10.8653 12.6968C11.1372 12.65 11.32 12.3921 11.2731 12.1203L10.595 8.16871L13.4653 5.37027C13.5434 5.29371 13.595 5.19371 13.6106 5.08433C13.6528 4.81089 13.4622 4.55777 13.1887 4.51714Z"
+                      fill="#219653"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>% Total Rated Transaction</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalPercRT }}%
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Branches</p>
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.55458 0.146526C5.6835 0.051506 5.83944 0.000244141 5.99958 0.000244141C6.15973 0.000244141 6.31567 0.051506 6.44458 0.146526L11.1931 3.64903C11.7551 4.06403 11.4921 4.93803 10.8231 4.99903H1.17608C0.507085 4.93803 0.244585 4.06403 0.806085 3.64903L5.55508 0.146526H5.55458ZM5.99958 3.49953C6.1985 3.49953 6.38926 3.42051 6.52991 3.27986C6.67057 3.1392 6.74958 2.94844 6.74958 2.74953C6.74958 2.55061 6.67057 2.35985 6.52991 2.2192C6.38926 2.07854 6.1985 1.99953 5.99958 1.99953C5.80067 1.99953 5.60991 2.07854 5.46925 2.2192C5.3286 2.35985 5.24958 2.55061 5.24958 2.74953C5.24958 2.94844 5.3286 3.1392 5.46925 3.27986C5.60991 3.42051 5.80067 3.49953 5.99958 3.49953ZM8.74958 5.49953H9.99908V8.49953H8.74908V5.49953H8.74958ZM7.74958 8.49953V5.49953H6.49958V8.49953H7.74958ZM5.49958 8.50003V5.50003H4.24958V8.50003H5.49958ZM3.25008 8.50003V5.50003H2.00008V8.50003H3.25008ZM2.12508 9.00003C1.69411 9.00003 1.28078 9.17123 0.976036 9.47598C0.67129 9.78072 0.500085 10.194 0.500085 10.625V10.875C0.500585 11.0825 0.668585 11.2505 0.875085 11.2505H11.1236C11.223 11.2505 11.3184 11.211 11.3887 11.1407C11.4591 11.0704 11.4986 10.975 11.4986 10.8755V10.6255C11.4986 10.1945 11.3274 9.78123 11.0226 9.47648C10.7179 9.17173 10.3046 9.00053 9.87358 9.00053H2.12558L2.12508 9.00003Z"
+                      fill="#EA1401"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of branches</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalBranches }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Services</p>
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 13 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.1875 0.875H1.8125C1.56386 0.875 1.3254 0.973772 1.14959 1.14959C0.973772 1.3254 0.875 1.56386 0.875 1.8125V11.1875C0.875 11.4361 0.973772 11.6746 1.14959 11.8504C1.3254 12.0262 1.56386 12.125 1.8125 12.125H11.1875C11.4361 12.125 11.6746 12.0262 11.8504 11.8504C12.0262 11.6746 12.125 11.4361 12.125 11.1875V1.8125C12.125 1.56386 12.0262 1.3254 11.8504 1.14959C11.6746 0.973772 11.4361 0.875 11.1875 0.875Z"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M5.5625 8.6875L7.125 9.9375L9.625 6.8125"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M3.375 3.6875H9.625"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M3.375 6.1875H5.875"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of services</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalServices }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Users</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.9997 5.33325H1.99967C1.55765 5.33325 1.13372 5.50885 0.821163 5.82141C0.508602 6.13397 0.333008 6.55789 0.333008 6.99992V12.8333H13.6663V6.99992C13.6663 6.55789 13.4907 6.13397 13.1782 5.82141C12.8656 5.50885 12.4417 5.33325 11.9997 5.33325ZM11.9997 8.66659H8.66634V6.99992H11.9997V8.66659ZM11.1663 4.49992H2.83301V0.333252H11.1663V4.49992Z"
+                      fill="#F2C94C"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of users</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalUsers }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="mt-4 font-bold">Top 5 Users</h4>
+
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Staff name</th>
+                  <th>Total number of transaction</th>
+                  <th>Total rated transaction</th>
+                  <th>Average rating</th>
+                  <th>% of Total Transactions Rated</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="defaultReport?.topUsers !== null; else noUser">
+                <tr *ngFor="let topUser of defaultReport?.topUsers">
+                  <td>{{ topUser.name }}</td>
+                  <td>{{ topUser.totalNT }}</td>
+                  <td>{{ topUser.totalRT }}</td>
+                  <td>{{ topUser.average }}</td>
+                  <td class="text-success">{{ topUser.totalPRT }}%</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4 class="font-extrabold">Bottom 5 users</h4>
+
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Staff name</th>
+                  <th>Total number of transaction</th>
+                  <th>Total rated transaction</th>
+                  <th>Average rating</th>
+                  <th>% of Total Transactions Rated</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="defaultReport?.buttonUsers !== null; else noUser">
+                <tr *ngFor="let bottomUser of defaultReport?.buttonUsers">
+                  <td>{{ bottomUser.name }}</td>
+                  <td>{{ bottomUser.totalNT }}</td>
+                  <td>{{ bottomUser.totalRT }}</td>
+                  <td>{{ bottomUser.average }}</td>
+                  <td class="text-danger">{{ bottomUser.totalPRT }}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Services ">
+          <div class="tab-content-container ">
+            <div class="d-flex justify-content-end">
+              <mat-form-field appearance="outline">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input
+                  [formGroup]="range"
+                  [rangePicker]="pickerServices"
+                >
+                  <input
+                    matStartDate
+                    formControlName="start"
+                    #dateRangeStart
+                    placeholder="Start date"
+                  />
+                  <input
+                    matEndDate
+                    formControlName="end"
+                    #dateRangeEnd
+                    placeholder="End date"
+                    (dateChange)="onChange(3)"
+                  />
+                </mat-date-range-input>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerServices"
+                ></mat-datepicker-toggle>
+                <mat-date-range-picker #pickerServices></mat-date-range-picker>
+
+                <mat-error
+                  *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+                  >Invalid start date</mat-error
+                >
+                <mat-error
+                  *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+                  >Invalid end date</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div class="custom-card-container">
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Ratings</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.1887 4.51714L9.22154 3.94058L7.4481 0.345269C7.39966 0.246832 7.31998 0.167144 7.22154 0.118707C6.97466 -0.00316805 6.67466 0.0983945 6.55123 0.345269L4.77779 3.94058L0.810601 4.51714C0.701226 4.53277 0.601226 4.58433 0.524663 4.66246C0.432103 4.75759 0.381099 4.88558 0.382856 5.0183C0.384614 5.15103 0.438991 5.27762 0.534038 5.37027L3.40435 8.16871L2.72623 12.1203C2.71032 12.2122 2.7205 12.3067 2.75559 12.3932C2.79068 12.4796 2.84929 12.5545 2.92477 12.6093C3.00025 12.6641 3.08958 12.6967 3.18263 12.7033C3.27568 12.71 3.36873 12.6904 3.45123 12.6468L6.99966 10.7812L10.5481 12.6468C10.645 12.6984 10.7575 12.7156 10.8653 12.6968C11.1372 12.65 11.32 12.3921 11.2731 12.1203L10.595 8.16871L13.4653 5.37027C13.5434 5.29371 13.595 5.19371 13.6106 5.08433C13.6528 4.81089 13.4622 4.55777 13.1887 4.51714Z"
+                      fill="#219653"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Rated Transaction</p>
+                  <p class="count">{{ defaultReport?.totalCounts?.totalRT }}</p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Ratings</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.1887 4.51714L9.22154 3.94058L7.4481 0.345269C7.39966 0.246832 7.31998 0.167144 7.22154 0.118707C6.97466 -0.00316805 6.67466 0.0983945 6.55123 0.345269L4.77779 3.94058L0.810601 4.51714C0.701226 4.53277 0.601226 4.58433 0.524663 4.66246C0.432103 4.75759 0.381099 4.88558 0.382856 5.0183C0.384614 5.15103 0.438991 5.27762 0.534038 5.37027L3.40435 8.16871L2.72623 12.1203C2.71032 12.2122 2.7205 12.3067 2.75559 12.3932C2.79068 12.4796 2.84929 12.5545 2.92477 12.6093C3.00025 12.6641 3.08958 12.6967 3.18263 12.7033C3.27568 12.71 3.36873 12.6904 3.45123 12.6468L6.99966 10.7812L10.5481 12.6468C10.645 12.6984 10.7575 12.7156 10.8653 12.6968C11.1372 12.65 11.32 12.3921 11.2731 12.1203L10.595 8.16871L13.4653 5.37027C13.5434 5.29371 13.595 5.19371 13.6106 5.08433C13.6528 4.81089 13.4622 4.55777 13.1887 4.51714Z"
+                      fill="#219653"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>% Total Rated Transaction</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalPercRT }}%
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Branches</p>
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.55458 0.146526C5.6835 0.051506 5.83944 0.000244141 5.99958 0.000244141C6.15973 0.000244141 6.31567 0.051506 6.44458 0.146526L11.1931 3.64903C11.7551 4.06403 11.4921 4.93803 10.8231 4.99903H1.17608C0.507085 4.93803 0.244585 4.06403 0.806085 3.64903L5.55508 0.146526H5.55458ZM5.99958 3.49953C6.1985 3.49953 6.38926 3.42051 6.52991 3.27986C6.67057 3.1392 6.74958 2.94844 6.74958 2.74953C6.74958 2.55061 6.67057 2.35985 6.52991 2.2192C6.38926 2.07854 6.1985 1.99953 5.99958 1.99953C5.80067 1.99953 5.60991 2.07854 5.46925 2.2192C5.3286 2.35985 5.24958 2.55061 5.24958 2.74953C5.24958 2.94844 5.3286 3.1392 5.46925 3.27986C5.60991 3.42051 5.80067 3.49953 5.99958 3.49953ZM8.74958 5.49953H9.99908V8.49953H8.74908V5.49953H8.74958ZM7.74958 8.49953V5.49953H6.49958V8.49953H7.74958ZM5.49958 8.50003V5.50003H4.24958V8.50003H5.49958ZM3.25008 8.50003V5.50003H2.00008V8.50003H3.25008ZM2.12508 9.00003C1.69411 9.00003 1.28078 9.17123 0.976036 9.47598C0.67129 9.78072 0.500085 10.194 0.500085 10.625V10.875C0.500585 11.0825 0.668585 11.2505 0.875085 11.2505H11.1236C11.223 11.2505 11.3184 11.211 11.3887 11.1407C11.4591 11.0704 11.4986 10.975 11.4986 10.8755V10.6255C11.4986 10.1945 11.3274 9.78123 11.0226 9.47648C10.7179 9.17173 10.3046 9.00053 9.87358 9.00053H2.12558L2.12508 9.00003Z"
+                      fill="#EA1401"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of branches</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalBranches }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Services</p>
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 13 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.1875 0.875H1.8125C1.56386 0.875 1.3254 0.973772 1.14959 1.14959C0.973772 1.3254 0.875 1.56386 0.875 1.8125V11.1875C0.875 11.4361 0.973772 11.6746 1.14959 11.8504C1.3254 12.0262 1.56386 12.125 1.8125 12.125H11.1875C11.4361 12.125 11.6746 12.0262 11.8504 11.8504C12.0262 11.6746 12.125 11.4361 12.125 11.1875V1.8125C12.125 1.56386 12.0262 1.3254 11.8504 1.14959C11.6746 0.973772 11.4361 0.875 11.1875 0.875Z"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M5.5625 8.6875L7.125 9.9375L9.625 6.8125"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M3.375 3.6875H9.625"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M3.375 6.1875H5.875"
+                      stroke="#2F80ED"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of services</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalServices }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="custom-card mb-3 pb-2">
+                <div class="custom-card-header">
+                  <p>Users</p>
+                  <svg
+                    width="14"
+                    height="13"
+                    viewBox="0 0 14 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.9997 5.33325H1.99967C1.55765 5.33325 1.13372 5.50885 0.821163 5.82141C0.508602 6.13397 0.333008 6.55789 0.333008 6.99992V12.8333H13.6663V6.99992C13.6663 6.55789 13.4907 6.13397 13.1782 5.82141C12.8656 5.50885 12.4417 5.33325 11.9997 5.33325ZM11.9997 8.66659H8.66634V6.99992H11.9997V8.66659ZM11.1663 4.49992H2.83301V0.333252H11.1663V4.49992Z"
+                      fill="#F2C94C"
+                    />
+                  </svg>
+                </div>
+
+                <div class="custom-card-content">
+                  <p>Total Number of users</p>
+                  <p class="count">
+                    {{ defaultReport?.totalCounts?.totalUsers }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <div class="custom-card chart-card">
+                <div class="custom-card-header">
+                  <p>Top 10 services</p>
+                </div>
+                <div class="custom-card-content">
+                  <chart
+                    *ngIf="defaultReport?.topServices !== null; else noService"
+                    [type]="horizontalBarChart"
+                    [data]="topTenServicesData"
+                    [options]="options"
+                    style="height: 450px"
+                  ></chart>
+                </div>
+              </div>
+
+              <div class="custom-card chart-card">
+                <div class="custom-card-header">
+                  <p>Bottom 10 Services</p>
+                </div>
+                <div class="custom-card-content">
+                  <chart
+                    *ngIf="
+                      defaultReport?.buttonServices !== null;
+                      else noService
+                    "
+                    [type]="horizontalBarChart"
+                    [data]="bottomTenServicesData"
+                    [options]="options"
+                    style="height: 450px"
+                  ></chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </div>
+    </div>
+  </mat-tab-group>
+</div>

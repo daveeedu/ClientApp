@@ -1,0 +1,38 @@
+<div id="dialogbox">
+<h1 mat-dialog-title>
+  <strong
+    >{{ action }}
+    {{ localData.bankName || localData.psspName }}
+  </strong>
+</h1>
+<div mat-dialog-content>
+  <ng-container [ngSwitch]="action">
+    <ng-container *ngSwitchCase="'Activate'">
+      <p>
+        Are you sure you want to activate
+        <strong>{{ localData.bankName || localData.psspName }} </strong>?
+      </p>
+    </ng-container>
+    <ng-container *ngSwitchCase="'Deactivate'">
+      <p>
+        Are you sure you want to deactivate
+        <strong>{{ localData.bankName || localData.psspName }} </strong>?
+      </p>
+    </ng-container>
+    <ng-container *ngSwitchCase="'Suspend'">
+      <p>
+        Are you sure you want to suspend
+        <strong>{{ localData.bankName || localData.psspName }} </strong>?
+      </p>
+    </ng-container>
+  </ng-container>
+</div>
+<div mat-dialog-actions class="flex justify-evenly mt-4 mb-2">
+  <button mat-button (click)="closeDialog()" mat-flat-button color="accent">
+    Cancel
+  </button>
+  <button mat-flat-button color="primary" (click)="doAction()" name="action">
+    {{ action }}
+  </button>
+</div>
+</div>

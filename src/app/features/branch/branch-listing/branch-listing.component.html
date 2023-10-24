@@ -1,0 +1,98 @@
+<div class="row m-5">
+  <div class="col-md-8">
+    <div>
+      
+      <div class="loading-indicator" *ngIf="isLoadingResults">
+        <mat-spinner
+          mode="indeterminate"
+          *ngIf="isLoadingResults"
+          style="margin: 0 auto;"
+        ></mat-spinner>
+      </div>
+
+      <form>
+        <mat-form-field class="flex-1 mr-5">
+          <mat-label>Search Branches</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Search Branches"
+            (keyup)="doFilter($event.target.value)"
+            [(ngModel)]="filterBranches"
+            name="searchBranches"
+            id="searchBranches"
+          />
+          <mat-icon
+            class="cursor-pointer material-icons"
+            fontSet="material-icons-outlined"
+            matSuffix
+          >
+            search</mat-icon
+          >
+        </mat-form-field>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="row m-5">
+  <div class="col-md-12">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Branches</mat-card-title>
+        <mat-card-actions>
+
+        </mat-card-actions>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+          <!-- Code Column -->
+          <ng-container matColumnDef="branchCode">
+            <mat-header-cell *matHeaderCellDef> Branch Code </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span>{{element.code}}</span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="branchName">
+            <mat-header-cell *matHeaderCellDef> Branch Name </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span>{{element.name}}</span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-icon-button>
+                <mat-icon
+                  fontSet="material-icons-outlined"
+                  matTooltip="Edit Branch"
+                  matTooltipPosition="above"
+                  (click)="editBranch(element.id)"
+                  class="text-success material-icons"
+                  name="editBank"
+                >
+                  edit
+                </mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+
+          <mat-header-row *matHeaderRowDef="branchColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: branchColumns;"></mat-row>
+        </mat-table>
+      </mat-card-content>
+    </mat-card>
+    <!-- - pagination  -->
+    <div class="pagination-footer" [hidden]="branches?.length < 1">
+      <mat-paginator #paginator [pageSizeOptions]="[10, 25, 30, 45, 50, 100]">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

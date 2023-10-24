@@ -1,0 +1,137 @@
+﻿@import '~@angular/material/theming';
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Noto Sans JP, sans-serif',
+  $headline: mat-typography-level(24px, 32px, 500),
+  $body-1: mat-typography-level(14px, 20px, 400),
+);
+
+@include mat-base-typography($custom-typography);
+@include mat-checkbox-typography($custom-typography);
+@include angular-material-typography($custom-typography);
+@include mat-core($custom-typography);
+
+$_3b-admin-app-secondary: (
+  50: #e6e6e9,
+  100: #bfc0c9,
+  200: #9597a5,
+  300: #6b6d80,
+  400: #4b4d65,
+  500: #2b2e4a,
+  600: #262943,
+  700: #20233a,
+  800: #1a1d32,
+  900: #101222,
+  A100: #646fff,
+  A200: #3140ff,
+  A400: #0012fd,
+  A700: #0010e4,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #ffffff,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$_3b-admin-app-primary: (
+  50: #eaf2ee,
+  100: #c9ded5,
+  200: #a6c8b9,
+  300: #82b29d,
+  400: #67a288,
+  500: #D51709,
+  600: #45896b,
+  700: #3c7e60,
+  800: #337456,
+  900: #246243,
+  A100: #a5ffd0,
+  A200: #72ffb6,
+  A400: #3fff9c,
+  A700: #25ff8f,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$_3b-admin-app-accent: (
+  50: #ecf3fa,
+  100: #d0e1f4,
+  200: #b1ceec,
+  300: #92bae4,
+  400: #7aabdf,
+  500: #639cd9,
+  600: #5b94d5,
+  700: #518acf,
+  800: #4780ca,
+  900: #356ec0,
+  A100: #ffffff,
+  A200: #d6e6ff,
+  A400: #a3c7ff,
+  A700: #8ab7ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$_3b-admin-app-palette-primary: mat-palette($_3b-admin-app-primary);
+$_3b-admin-app-palette-accent: mat-palette($_3b-admin-app-accent);
+$_3b-admin-app-palette-secondary: mat-palette($_3b-admin-app-secondary);
+
+$_3b-admin-app-theme: mat-light-theme(
+    $_3b-admin-app-palette-primary,
+    $_3b-admin-app-palette-accent,
+    $_3b-admin-app-palette-secondary
+);
+
+@mixin button-toggle-theme($_3b-admin-app-theme) {
+  $accent: map-get($_3b-admin-app-theme, accent);
+  $secondary: map-get($_3b-admin-app-theme, secondary);
+
+  .mat-button-toggle {
+    background-color: mat-color($accent, A100);
+  }
+
+  .mat-button-toggle-checked .mat-button-toggle-label-content {
+    color: mat-color($accent, A100);
+  }
+}
+
+@include angular-material-theme($_3b-admin-app-theme);
+@include button-toggle-theme($_3b-admin-app-theme);

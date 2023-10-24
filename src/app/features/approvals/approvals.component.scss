@@ -1,0 +1,37 @@
+.listing {
+    flex-basis: 70%;
+  }
+  
+  .success-badge {
+    color: #eb5757;
+    background-color: #f5f8f7;
+  }
+  .badge {
+    background-color: #f1c2c2;
+    display: flex;
+    padding: 0 10px;
+    border: none;
+    border-radius: 2em;
+    font-size: 10px;
+    vertical-align: center;
+    align-items: center;
+    height: 25px;
+    width: fit-content;
+    .mat-icon {
+      font-size: 14px;
+      height: 14px;
+      width: 14px;
+      margin-right: 5px;
+    }
+  }
+
+  .card-content{
+      display: flex;
+  }
+
+  mat-card{
+    margin: 10px 10px;
+  }
+
+  
+  

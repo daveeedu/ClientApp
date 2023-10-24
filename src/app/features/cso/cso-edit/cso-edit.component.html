@@ -1,0 +1,80 @@
+<app-loader *ngIf="loading"></app-loader>
+<div class="flex p-4">
+  <mat-icon fontSet="material-icons-outlined material-icons"
+    >dashboard</mat-icon
+  >
+  <p class="ml-2">
+    <a routerLink="/{{ applicationPaths.Cso }}">Cso</a> /<span
+      class="text-blue-500"
+      >Edit Cso</span
+    >
+  </p>
+</div>
+
+<div class="px-10 w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mx-auto">
+  <form [formGroup]="csoForm" (ngSubmit)="editCso()" #form="ngForm">
+    <div class="row">
+      <mat-form-field class="offset-md-4 col-md-4">
+        <mat-label>Cso's Full Name</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="John"
+          formControlName="fullName"
+          [errorStateMatcher]="matcher"
+          name="fullName"
+          id="fullName"
+          maxlength="50"
+        />
+        <mat-error *ngIf="hasError('fullName', 'required')"
+          >Please enter Cso's Full Name</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field class="offset-md-4 col-md-4">
+        <mat-label>Branch</mat-label>
+        <input formControlName="branchId" hidden />
+        <input
+          type="text"
+          placeholder="Select Branch"
+          aria-label="Number"
+          matInput
+          formControlName="branchName"
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option
+            (onSelectionChange)="onBranchSelected(branch)"
+            *ngFor="let branch of filteredOptions | async"
+            [value]="branch.name"
+          >
+            {{ branch.name }}
+          </mat-option>
+          <mat-option *ngIf="branches.length < 1">
+            No branch available on the system.
+          </mat-option>
+        </mat-autocomplete>
+
+        <mat-error> Please select a Branch </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="offset-md-4 col-md-4">
+        <button mat-stroked-button color="primary" (click)="goBackToList()">
+          Cancel
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [class.spinner]="loading"
+          [disabled]="loading"
+          class="ml-5"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

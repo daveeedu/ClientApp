@@ -1,0 +1,96 @@
+.tab-content-container {
+  padding: 10px 34px;
+}
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  color: red;
+}
+
+::ng-deep .mat-tab-list .mat-tab-labels {
+  background-color: white;
+}
+
+.custom-card {
+  background-color: white;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  &-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 0.5px solid #E1E1E1;
+    p {
+      margin: 0;
+      font-weight: 500;
+    }
+  }
+
+  &-content {
+    padding: 10px 40px 10px 20px;
+  }
+
+  .count {
+    margin-top: 30px;
+  }
+}
+
+.mt {
+  margin-top: 20px;
+}
+
+.chart-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  .chart-card {
+    width: 48%;
+  }
+}
+
+.styled-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 100%;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+}
+
+.styled-table thead tr {
+  text-align: left;
+}
+
+.styled-table th {
+  border-bottom: 1px solid #BEBEBE;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+
+// @media (min-width: 1024px) {
+//   .mt {
+//     margin-top: 20px !important;
+//   }
+// }
+// @media (min-width: 2560px) {
+//   .mt {
+//     margin-top: 0px !important;
+//   }
+// }

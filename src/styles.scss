@@ -1,0 +1,306 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~material-design-icons/iconfont/material-icons.css';
+@import './3b-admin-app-theme.scss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #D51709;
+  --secondary: #4c9173;
+  --accent: #639cd9;
+  --danger: #eb5757;
+  --danger-light: #ffe5e5;
+  --success: #D51709;
+  --warning: #f2c94c;
+  --warning-light: #fff1c7;
+  --primary_shade: #51567e;
+  --main_dark: #393841;
+}
+
+* {
+  outline: none !important;
+}
+
+.router-link-active {
+  color: var(--warning);
+}
+
+a {
+  cursor: pointer;
+}
+
+.float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+}
+
+// show error color as red
+   mat-error {
+     color: var(--danger) !important;
+   }
+
+// center material form
+   .center-form {
+     min-width: 150px;
+     max-width: 500px;
+     width: 100%;
+     margin: auto;
+   }
+
+// spinner
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}
+
+// end of spinner
+
+     /* Absolute Center Spinner /loader*/
+   .loading-indicator {
+     position: fixed;
+     z-index: 999;
+     height: 2em;
+     width: 2em;
+     overflow: show;
+     margin: auto;
+     top: 0;
+     left: 0;
+     bottom: 0;
+     right: 0;
+   }
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.delete-icon {
+  cursor: pointer;
+  color: #eb5757;
+}
+
+.delete-icon:hover {
+  color: #850007;
+}
+
+/****general styles for menu layout and their crud uis***/
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+.wrapper .wrapper-content {
+  max-width: 550px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.wrapper .wrapper-content img {
+  height: auto;
+  width: 100%;
+// min-width: 400px;
+}
+
+@media (min-width: 1025px) {
+  .wrapper .wrapper-content img {
+    height: 300px;
+    width: 300px;
+    min-width: 250px;
+    margin-top: 3em;
+  }
+}
+
+mat-card {
+  margin: 10px 0;
+}
+
+mat-sidenav {
+.mat-drawer-inner-container {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+&::-webkit-scrollbar-track {
+   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+   background-color: #f5f5f5;
+ }
+
+&::-webkit-scrollbar {
+   width: 0;
+   background-color: #f5f5f5;
+ }
+
+&::-webkit-scrollbar-thumb {
+   background-color: #000000;
+   border: 2px solid #555555;
+ }
+}
+}
+
+.card-list {
+  min-height: 100%;
+  position: relative;
+}
+
+.mat-paginator {
+  background: transparent !important;
+}
+
+.badge {
+  display: flex;
+  padding: 0 10px;
+  border: none;
+  border-radius: 2em;
+  font-size: 10px;
+  vertical-align: center;
+  align-items: center;
+  height: 25px;
+  width: fit-content;
+.mat-icon {
+  font-size: 14px;
+  height: 14px;
+  width: 14px;
+  margin-right: 5px;
+}
+}
+
+.info-badge {
+  color: #639cd9;
+  background-color: #f5f8f7;
+}
+
+.danger-badge {
+  color: #eb5757;
+  background-color: #ffe6e6;
+}
+
+.success-badge {
+  color: #28A745;
+  background-color: #f5f8f7;
+}
+
+.warning-badge {
+  color: #869a6e;
+  background-color: #ecffd5;
+}
+
+.decommission-badge {
+  color: var(--danger);
+  background-color: var(--danger-light);
+  height: 30px;
+  margin-left: 5px;
+  border: none !important;
+  padding: 6px 19px;
+  border-radius: 41px;
+}
+
+.suspend-badge {
+  color: var(--warning);
+  background-color: var(--warning-light);
+  height: 30px;
+  margin-left: 5px;
+  border: none !important;
+  padding: 6px 19px;
+  border-radius: 41px;
+}
+
+.recommision-badge {
+  color: #fff;
+  border: 1px solid var(--primary);
+  background-color: var(--primary);
+  cursor: pointer;
+  transition: 0.3s ease-in;
+  margin: 0 !important;
+  height: 29.26px;
+}
+
+.recommision-badge:hover {
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  background-color: #fff;
+}
+
+.mat-badge-content {
+  background: #eb5757 !important;
+}
+
+// end of styles
+
+// view report button
+   button.report-btn {
+     margin-right: 1em;
+   }
+
+mat-button-toggle-group.mat-button-toggle-group {
+  border: 2px solid #D51709;
+}
+
+.mat-button-toggle {
+  border-color: #D51709;
+}
+
+mat-button-toggle.mat-button-toggle-checked {
+  background-color: #D51709;
+}
+
+.mat-checkbox-ripple .mat-ripple-element,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #D51709 !important;
+}
+
+mat-vertical-stepper {
+  background: transparent !important;
+}
+
+// secondary-button
+ .secondary-button {
+   border: none;
+   background: #D51709;
+   color: #ffffff !important;
+   font-weight: 100;
+   padding: 8px 15px;
+   border-radius: 4px;
+   display: inline-block;
+   transition: all 0.3s ease 0s;
+ }
+
+.secondary-button:hover {
+  color: #D51709 !important;
+  background: #ffffff;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(224, 224, 224, 0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(224, 224, 224, 0.57);
+  transition: all 0.3s ease 0s;
+}

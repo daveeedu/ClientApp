@@ -1,0 +1,277 @@
+<app-loader *ngIf="isLoadingResults"></app-loader>
+<div class="row m-5">
+  <div class="col-md-8">
+    <div>
+      <form>
+        <mat-form-field class="flex-1 mr-5">
+          <mat-label>Search Supervisor</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Search Supervisors"
+            (input)="doFilter($event.target.value)"
+            [(ngModel)]="filterSupervisors"
+            name="searchTellers"
+            id="searchTellers"
+          />
+          <mat-icon
+            class="cursor-pointer material-icons"
+            fontSet="material-icons-outlined"
+            matSuffix
+          >
+            search</mat-icon
+          >
+        </mat-form-field>
+
+        <mat-form-field class="flex-1 mr-5">
+          <mat-label>Filter Status</mat-label>
+          <mat-select
+            (selectionChange)="onFilterMatSelectFieldChange($event)"
+            id="filterStatus"
+            value=""
+          >
+            <mat-option value="">All</mat-option>
+            <mat-option
+              *ngFor="let supervisorStatus of supervisorStatuses"
+              [value]="supervisorStatus.value"
+            >
+              {{ supervisorStatus.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="flex-1">
+          <mat-label>Branch</mat-label>
+          <input formControlName="branchId" hidden />
+
+          <input
+            type="text"
+            placeholder="Select Branch"
+            aria-label="Number"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option
+              (onSelectionChange)="onBranchSelected(branch)"
+              *ngFor="let branch of filteredOptions | async"
+              [value]="branch.name"
+            >
+              {{ branch.name }}
+            </mat-option>
+            <mat-option *ngIf="branches.length < 1">
+              No branch available on the system.
+            </mat-option>
+          </mat-autocomplete>
+
+          <mat-error> Please select a Branch </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row m-2">
+  <div class="col-md-12">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Supervisors</mat-card-title>
+        <mat-card-actions> </mat-card-actions>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="name">
+            <th
+              style="width: 15%"
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+            >
+              <span
+                class="font-extrabold text-base uppercase"
+                style="font-family: 'Poppins', sans-serif; color: black"
+                >Supervisor's Name</span
+              >
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span>{{ row.fullName }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="id">
+            <th
+              style="width: 15%"
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+            >
+              <span
+                class="font-extrabold text-base uppercase"
+                style="font-family: 'Poppins', sans-serif; color: black"
+                >Staff Id</span
+              >
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span>{{ row.staffId }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th
+              style="width: 25%"
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              style="width: 200px"
+            >
+              <span
+                class="font-extrabold text-base uppercase"
+                style="font-family: 'Poppins', sans-serif; color: black"
+                >Email</span
+              >
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span>{{ row.emailAddress }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="branchName">
+            <th
+              style="width: 25%"
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+            >
+              <span
+                class="font-extrabold text-base uppercase"
+                style="font-family: 'Poppins', sans-serif; color: black"
+                >Branch Name</span
+              >
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span>{{ row.branchName }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="approvalStatus">
+            <th
+              style="width: 10%"
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+            >
+              <span
+                class="font-extrabold text-base uppercase"
+                style="font-family: 'Poppins', sans-serif; color: black"
+                >Status</span
+              >
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span
+                [ngClass]="{
+                  active: row.authState === activeItem,
+                  inactive: row.authState === inactiveItem
+                }"
+              >
+                {{ row.authState === activeItem ? activeItem : row.authState }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th
+              style="width: 10%"
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+            >
+              <span
+                class="font-extrabold text-base uppercase"
+                style="font-family: 'Poppins', sans-serif; color: black"
+                >Action</span
+              >
+            </th>
+            <td mat-cell *matCellDef="let row">
+
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu"
+              >
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="editSupervisor(row.id)">
+                  <mat-icon
+                    fontSet="material-icons-outlined"
+                    class="text-success material-icons"
+                    name="editBank"
+                  >
+                    edit
+                  </mat-icon>
+                  <span>Edit</span>
+                </button>
+
+                <button mat-menu-item (click)="deleteSupervisor(row.id)">
+                  <mat-icon
+                    fontSet="material-icons-outlined"
+                    class="text-danger material-icons"
+                    name="editBank"
+                  >
+                    delete
+                  </mat-icon>
+                  <span>Delete</span>
+                </button>
+
+                <button
+                  mat-menu-item
+                  (click)="onToggle(row)"
+                  *ngIf="row.authState !== inactiveItem"
+                >
+                  <mat-icon
+                    fontSet="material-icons-outlined"
+                    class="text-danger material-icons"
+                    name="moveDevice"
+                  >
+                    block
+                  </mat-icon>
+                  <span>Deactivate Supervisor</span>
+                </button>
+
+                <button
+                  mat-menu-item
+                  (click)="onToggle(row)"
+                  *ngIf="row.authState === inactiveItem"
+                >
+                  <mat-icon
+                    fontSet="material-icons-outlined"
+                    class="text-success material-icons"
+                    name="moveDevice"
+                  >
+                    done
+                  </mat-icon>
+                  <span>Activate Supervisor</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="supervisorsColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: supervisorsColumns"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+    <!-- - pagination  -->
+    <div class="pagination-footer" [hidden]="supervisors?.length < 1">
+      <mat-paginator
+        [length]="totalFilterLength"
+        [pageSize]="limit"
+        [pageSizeOptions]="[5, 10, 25, 50, 100]"
+        (page)="onPaginationChange($event)"
+        showFirstLastButton
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,277 @@
+<mat-toolbar class="header">
+  <div>
+    <img src="/assets/img/Shape.png" alt="logo" width="143" height="67"/>
+  </div>
+</mat-toolbar>
+
+<div class="contents">
+  <mat-nav-list id="menus">
+
+    <div class="menu">
+      <div
+        class="title flex items-center"
+        (click)="expandDashboardMenu()"
+        [ngClass]="{ 'menu-link-active': isDashboardMenuActive }"
+      >
+        <div class="name flex items-center" name="institutions">
+          <mat-icon fontSet="material-icons-outlined" class="material-icons">reorder</mat-icon>
+          <a
+          [routerLink]="[applicationPaths.Dashboard]"
+          routerLinkActive="router-link-active"
+          >
+            <span class="font-normal ml-4">Dashboard</span>
+          </a>
+          <mat-icon
+            *ngIf="dashboardMenuClicked"
+            role="img"
+            class="mat-icon notranslate ng-tns-c140-2 material-icons mat-icon-no-color"
+            aria-hidden="true"
+          >
+            keyboard_arrow_up
+          </mat-icon>
+          <mat-icon
+            *ngIf="!dashboardMenuClicked"
+            role="img"
+            class="mat-icon notranslate ng-tns-c140-2 material-icons mat-icon-no-color"
+            aria-hidden="true"
+          >
+            keyboard_arrow_down
+          </mat-icon>
+        </div>
+
+      </div>
+      <div class="menu-items" *ngIf="dashboardMenuClicked">
+        <mat-nav-list>
+          <a
+          [routerLink]="[applicationPaths.Dashboard]"
+          >
+            <mat-list-item>
+              <button class="menu-item" mat-icon-button name="tellers">
+                <span class="font-normal ml-4">Default</span>
+              </button>
+            </mat-list-item>
+          </a>
+
+          <a
+          [routerLink]="[applicationPaths.DeviceStatus]"
+          routerLinkActive="router-link-active"
+        >
+          <mat-list-item>
+            <button class="menu-item" mat-icon-button name="tellers">
+              <span class="font-normal ml-4">Device Status</span>
+            </button>
+          </mat-list-item>
+        </a>
+
+        <a
+        [routerLink]="[applicationPaths.TellerActivity]"
+        routerLinkActive="router-link-active"
+      >
+        <mat-list-item>
+          <button class="menu-item" mat-icon-button name="tellers">
+            <span class="font-normal ml-4">Teller Activity</span>
+          </button>
+        </mat-list-item>
+      </a>
+
+        <a
+        [routerLink]="[applicationPaths.TransactionStatus]"
+        routerLinkActive="router-link-active"
+      >
+        <mat-list-item>
+          <button class="menu-item" mat-icon-button name="tellers">
+            <span class="font-normal ml-4">Transaction Status</span>
+          </button>
+        </mat-list-item>
+      </a>
+
+      <a
+      [routerLink]="[applicationPaths.LastTransaction]"
+      routerLinkActive="router-link-active"
+    >
+      <mat-list-item>
+        <button class="menu-item" mat-icon-button name="tellers">
+          <span class="font-normal ml-4">Last Transaction</span>
+        </button>
+      </mat-list-item>
+    </a>
+
+      <a
+      [routerLink]="[applicationPaths.FailedTransaction]"
+      routerLinkActive="router-link-active"
+    >
+      <mat-list-item>
+        <button class="menu-item" mat-icon-button name="tellers">
+          <span class="font-normal ml-4">Failed Transaction</span>
+        </button>
+      </mat-list-item>
+    </a>
+        </mat-nav-list>
+      </div>
+    </div>
+    
+    <a
+      [routerLink]="[applicationPaths.Devices]"
+      routerLinkActive="router-link-active"
+    >
+      <mat-list-item>
+        <button class="menu-item" mat-icon-button name="devices">
+          <mat-icon fontSet="material-icons-outlined" class="material-icons">devices</mat-icon>
+          <span class="font-normal ml-4">Devices</span>
+        </button>
+      </mat-list-item>
+    </a>
+
+
+    <div class="menu">
+      <div
+        class="title flex items-center"
+        (click)="expandPersonaMenu()"
+        [ngClass]="{ 'menu-link-active': isPersonaMenuActive }"
+      >
+        <div class="name flex items-center" name="institutions">
+          <mat-icon fontSet="material-icons-outlined" class="material-icons">people</mat-icon>
+          <span class="font-normal ml-4">Users</span>
+          <mat-icon
+            *ngIf="personaMenuClicked"
+            role="img"
+            class="mat-icon notranslate ng-tns-c140-2 material-icons mat-icon-no-color"
+            aria-hidden="true"
+          >
+            keyboard_arrow_up
+          </mat-icon>
+          <mat-icon
+            *ngIf="!personaMenuClicked"
+            role="img"
+            class="mat-icon notranslate ng-tns-c140-2 material-icons mat-icon-no-color"
+            aria-hidden="true"
+          >
+            keyboard_arrow_down
+          </mat-icon>
+        </div>
+
+      </div>
+      <div class="menu-items" *ngIf="personaMenuClicked">
+        <mat-nav-list>
+          <a
+            [routerLink]="[applicationPaths.Tellers]"
+            routerLinkActive="router-link-active"
+          >
+            <mat-list-item>
+              <button class="menu-item" mat-icon-button name="tellers">
+                <span class="font-normal ml-4">Tellers</span>
+              </button>
+            </mat-list-item>
+          </a>
+        </mat-nav-list>
+      </div>
+      <div class="menu-items" *ngIf="personaMenuClicked">
+        <mat-nav-list>
+          <a
+            [routerLink]="[applicationPaths.Supervisors]"
+            routerLinkActive="router-link-active"
+          >
+            <mat-list-item>
+              <button class="menu-item" mat-icon-button name="tellers">
+                <span class="font-normal ml-4">Supervisors</span>
+              </button>
+            </mat-list-item>
+          </a>
+        </mat-nav-list>
+      </div>
+      <div class="menu-items" *ngIf="personaMenuClicked">
+        <mat-nav-list>
+          <a
+            [routerLink]="[applicationPaths.Cso]"
+            routerLinkActive="router-link-active"
+          >
+            <mat-list-item>
+              <button class="menu-item" mat-icon-button name="tellers">
+                <span class="font-normal ml-4">Cso</span>
+              </button>
+            </mat-list-item>
+          </a>
+        </mat-nav-list>
+      </div>
+    </div>
+
+    <a
+      [routerLink]="[applicationPaths.Branches]"
+      routerLinkActive="router-link-active"
+    >
+      <mat-list-item>
+        <button class="menu-item" mat-icon-button name="domain">
+          <mat-icon fontSet="material-icons-outlined" class="material-icons">domain</mat-icon>
+          <span class="font-normal ml-4">Branches</span>
+        </button>
+      </mat-list-item>
+    </a>
+
+    <a
+      [routerLink]="[applicationPaths.GeneralDistribution]"
+      routerLinkActive="router-link-active"
+    >
+      <mat-list-item>
+        <button class="menu-item" mat-icon-button name="domain">
+          <mat-icon fontSet="material-icons-outlined" class="material-icons">backup</mat-icon>
+          <span class="font-normal ml-4">General Upload</span>
+        </button>
+      </mat-list-item>
+    </a>
+
+    <div class="menu">
+      <div
+        class="title flex items-center"
+        (click)="expandReportMenu()"
+        [ngClass]="{ 'menu-link-active': isReportMenuActive }"
+      >
+        <div class="name flex items-center" name="institutions">
+          <mat-icon fontSet="material-icons-outlined" class="material-icons">assignment</mat-icon>
+          <span class="font-normal ml-4">Report</span>
+          <mat-icon
+            *ngIf="reportMenuClicked"
+            role="img"
+            class="mat-icon notranslate ng-tns-c140-2 material-icons mat-icon-no-color"
+            aria-hidden="true"
+          >
+            keyboard_arrow_up
+          </mat-icon>
+          <mat-icon
+            *ngIf="!reportMenuClicked"
+            role="img"
+            class="mat-icon notranslate ng-tns-c140-2 material-icons mat-icon-no-color"
+            aria-hidden="true"
+          >
+            keyboard_arrow_down
+          </mat-icon>
+        </div>
+
+      </div>
+      <div class="menu-items" *ngIf="reportMenuClicked">
+        <mat-nav-list>
+          <a
+            [routerLink]="[applicationPaths.Report]"
+            routerLinkActive="router-link-active"
+          >
+            <mat-list-item>
+              <button class="menu-item" mat-icon-button name="tellers">
+                <span class="font-normal ml-4">Report List</span>
+              </button>
+            </mat-list-item>
+          </a>
+          <a
+            [routerLink]="[applicationPaths.Audit]"
+            routerLinkActive="router-link-active"
+          >
+            <mat-list-item>
+              <button class="menu-item" mat-icon-button name="tellers">
+                <span class="font-normal ml-4">Audit</span>
+              </button>
+            </mat-list-item>
+          </a>
+        </mat-nav-list>
+      </div>
+    </div>
+  
+  </mat-nav-list>
+</div>

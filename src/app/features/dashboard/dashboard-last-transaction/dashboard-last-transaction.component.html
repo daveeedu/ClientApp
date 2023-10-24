@@ -1,0 +1,95 @@
+<app-loader *ngIf="isLoadingResults"></app-loader>
+<div class="d-flex justify-content-between set-padding">
+  <div>
+    <div>
+      <form>
+
+        <mat-form-field class="flex-1 mr-5">
+            <mat-label>Select Transaction Type</mat-label>
+            <mat-select
+              id="filterStatus"
+              value=""
+              [formControl]="selectedLastTransactionType"
+              (selectionChange)="onChangeEvent()"
+            >
+              <mat-option *ngFor="let transactionType of transactionTypes" [value]="transactionType.value">
+                {{transactionType.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" [formControl]="date" (dateChange)="onChangeEvent()"/>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+      </form>
+    </div>
+  </div>
+
+  <div>
+    <button class="btn btn-danger btn-sm" (click)="onExport()">Download CSV</button>
+  </div>
+</div>
+
+<div class="row m-2">
+  <div class="col-md-12 example-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Last Transaction Transaction</mat-card-title>
+        <mat-card-actions>
+
+        </mat-card-actions>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        
+          <!-- Branch Name Column -->
+          <ng-container matColumnDef="branchName">
+            <th mat-header-cell *matHeaderCellDef> Branch Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.branchName}} </td>
+          </ng-container>
+        
+          <!-- Branch Code Column -->
+          <ng-container matColumnDef="branchCode">
+            <th mat-header-cell *matHeaderCellDef> Branch Code </th>
+            <td mat-cell *matCellDef="let element">{{element.branchCode}}</td>
+          </ng-container>
+        
+          <!-- CSM Email Column -->
+          <ng-container matColumnDef="csmEmail">
+            <th mat-header-cell *matHeaderCellDef>CSM EMAIL </th>
+            <td mat-cell *matCellDef="let element"> {{element.csmEmail}} </td>
+          </ng-container>
+        
+          <!-- transaction Date Column -->
+          <ng-container matColumnDef="transactionDate">
+            <th mat-header-cell *matHeaderCellDef> Transaction Date </th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="!element.content?.date">No Activity</span>
+              <span *ngIf="element.content?.date">{{element.content?.date | date}}</span>
+            </td>
+          </ng-container>
+        
+          <!-- Days Elapsed Column -->
+          <ng-container matColumnDef="daysElapsed">
+            <th mat-header-cell *matHeaderCellDef> Days Elapsed </th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.content?.daysElapsed === null">No Activity</span>
+              <span *ngIf="element.content?.daysElapsed >= 0">{{element.content?.daysElapsed}}</span>
+            </td>
+          </ng-container> 
+        
+          <tr mat-header-row *matHeaderRowDef="lastTransactionColumn"></tr>
+          <tr mat-row *matRowDef="let row; columns: lastTransactionColumn;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+    <!-- - pagination  -->
+    <div class="pagination-footer" [hidden]="lastTransaction?.length < 1">
+      <mat-paginator #paginator [pageSizeOptions]="[10, 25, 30, 45, 50, 100]">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

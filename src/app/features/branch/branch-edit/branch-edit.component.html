@@ -1,0 +1,129 @@
+<div class="flex p-4">
+  <mat-icon fontSet="material-icons-outlined material-icons">dashboard</mat-icon>
+  <p class="ml-2">
+    <a routerLink="/{{ applicationPaths.Branches }}">Branches</a> /<span
+    class="text-blue-500"
+  >Edit Branch</span
+  >
+  </p>
+</div>
+<div class="px-10 w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mx-auto">
+  <form [formGroup]="branchForm" (ngSubmit)="editBranch()" #form="ngForm">
+    <div class="row">
+      <mat-form-field class="offset-md-4 col-md-4">
+        <mat-label>Branch Address</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Xyz Way, ABC"
+          formControlName="address"
+          [errorStateMatcher]="matcher"
+          name="address"
+          id="address"
+          maxlength="100"
+        />
+        <mat-error *ngIf="hasError('address', 'required')">
+          Please enter branch address</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="offset-md-4 col-md-4">
+        <mat-label>Branch Code</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Xyz Way, ABC"
+          formControlName="branchCode"
+          [errorStateMatcher]="matcher"
+          name="branchCode"
+          id="branchCode"
+          maxlength="100"
+        />
+        <mat-error *ngIf="hasError('branchCode', 'required')">
+          Please enter branch code</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="offset-md-4 col-md-4">
+        <mat-label>Branch Contact Name</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="John Doe"
+          formControlName="contactName"
+          [errorStateMatcher]="matcher"
+          name="contactName"
+          id="contactName"
+          maxlength="50"
+        />
+        <mat-error *ngIf="hasError('contactName', 'required')">
+          Please enter branch contact name</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="offset-md-4 col-md-4">
+        <mat-label>Branch Contact Email</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="johndoe@xyz.com"
+          formControlName="contactEmail"
+          [errorStateMatcher]="matcher"
+          name="contactEmail"
+          id="contactEmail"
+          maxlength="50"
+        />
+        <mat-error *ngIf="hasError('contactEmail', 'required')">
+          Please enter branch contact email</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="offset-md-4 col-md-4">
+        <mat-label>Branch Contact Phone Number</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="+2349011111111"
+          formControlName="contactPhoneNumber"
+          [errorStateMatcher]="matcher"
+          name="contactPhoneNumber"
+          id="contactPhoneNumber"
+          maxlength="11"
+        />
+        <mat-error *ngIf="hasError('contactPhoneNumber', 'required')">
+          Please enter branch contact number</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="offset-md-4 col-md-4">
+        <mat-label>Branch Subnet</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="00-0000-0000-00"
+          formControlName="subnet"
+          [errorStateMatcher]="matcher"
+          name="subnet"
+          id="subnet"
+          maxlength="25"
+        />
+        <mat-error *ngIf="hasError('subnet', 'required')">
+          Please enter branch subnet</mat-error
+        >
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <div class="offset-md-4 col-md-4">
+        <button mat-stroked-button color="primary" (click)="goBackToList()">
+          Cancel
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [class.spinner]="loading"
+          [disabled]="loading"
+          class="ml-5"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,79 @@
+<app-loader *ngIf="loading"></app-loader>
+<div>
+    <!-- Bread crumb -->
+    <div class="flex p-4">
+        <mat-icon fontSet="material-icons-outlined" class="material-icons">dashboard</mat-icon>
+        <p class="ml-2">
+          <a routerLink="/{{ applicationPaths.Devices }}">Devices</a> /<span
+          class="text-blue-500"
+        >New Device</span
+        >
+        </p>
+      </div>
+
+    <div class="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mx-auto">
+        <mat-vertical-stepper #productStepper [linear]="true">
+            <mat-step [stepControl]="csvUploadFormGroup" [formGroup]="csvUploadFormGroup" errorMessage="CSV File is required">
+                <ng-template matStepLabel>
+                    <p class="text-bold">
+                        Upload a CSV File
+                    </p>
+                </ng-template>
+                <div class="options justify-between align-items" style="cursor: pointer;">
+                    <div class="d-flex">
+                        <mat-icon fontSet="material-icons-outlined" class="material-icons upload">assignment</mat-icon>
+                        <p (click)="uploadCsv.click()" class="text-secondary cursor-pointer">Upload a file</p>
+                    </div>
+                    <div class="d-flex">
+                        <mat-icon fontSet="material-icons-outlined" class="material-icons upload">cloud_download</mat-icon>
+                        <a href="../../../../assets/device_enroll.csv" class="text-secondary cursor-pointer">Download Template</a>
+                    </div>
+                </div>
+                <p class="cursor-pointer">{{ uploadedCSVFile?.name }}</p>
+                
+                <div class="" >
+                    <mat-card *ngFor="let record of uploadedCSVJSON">
+                        <div class="flex justify-between align-items">
+                            <p><em>{{ record.Identifier }}</em></p>
+                            <p class="text-secondary">
+                                {{ record.NibssId }}
+                            </p>
+                            <p class="text-primary" style="letter-spacing:1px">
+                                {{ record.IpAdress }}
+                            </p>
+                            <p class="text-primary">Branch Code: {{ record.BranchCode }}</p>
+                        </div>
+                    </mat-card>
+                </div>
+                <div class="flex justify-end align-items" style="margin-top:50px">
+                    <button name="uploadMandatesStepNext" (click)="sendDevicesCSV()" mat-flat-button color="primary" matStepperNext>
+                        Upload
+                    </button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+    </div>
+
+    <!-- Upload input -->
+    <input
+        type="file"
+        (change)="uploadCSVFile($event)"
+        name="uploadDoc"
+        id="uploadDoc"
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        #uploadCsv
+        (click)="uploadCsv.value = null"
+    />
+
+    <!-- Upload input -->
+    <input
+        type="file"
+        name="uploadMandate"
+        id="uploadMandate"
+        (change)="sendDevicesCSV()"
+        accept="image/*"
+        #uploadMandate
+        (click)="uploadMandate.value = null"
+    />
+
+</div>

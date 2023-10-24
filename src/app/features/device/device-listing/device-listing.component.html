@@ -1,0 +1,234 @@
+<div class="row m-5">
+  <div class="col-md-7">
+    <div>
+      <app-loader *ngIf="isLoadingResults"></app-loader>
+
+      <form>
+        <mat-form-field class="flex-1 mr-5" style="width: 300px">
+          <mat-label>Search by DeviceId/IMEI Number</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Search by DeviceId/IMEI Number"
+            (input)="doFilter($event.target.value)"
+            [(ngModel)]="filterDevices"
+            name="searchDevices"
+            id="searchDevices"
+          />
+          <mat-icon
+            class="cursor-pointer material-icons"
+            fontSet="material-icons-outlined"
+            matSuffix
+          >
+            search</mat-icon
+          >
+        </mat-form-field>
+
+        <mat-form-field class="flex-1 mr-5">
+          <mat-label>Filter Status</mat-label>
+          <mat-select
+            (selectionChange)="onFilterMatSelectFieldChange($event)"
+            id="filterStatus"
+            value=""
+          >
+            <mat-option value="">All</mat-option>
+            <mat-option
+              *ngFor="let deviceStatus of deviceStatuses"
+              [value]="deviceStatus.value"
+            >
+              {{ deviceStatus.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-md-5 d-flex justify-content-around">
+    <div>
+      <a routerLink="/admin/devices/create">
+        <button mat-flat-button color="primary">New Device</button>
+      </a>
+    </div>
+
+    <div>
+      <a routerLink="/admin/devices/create-multiple">
+        <button mat-flat-button color="primary">Upload Multiple Devices</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row m-5">
+  <div class="col-md-12">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Devices</mat-card-title>
+        <mat-card-actions> </mat-card-actions>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <!-- Device ID Column -->
+          <ng-container matColumnDef="deviceId">
+            <mat-header-cell *matHeaderCellDef> Device Id </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span>{{ element.nibbsId }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Device Serial Column -->
+          <ng-container matColumnDef="imeiNumber">
+            <mat-header-cell *matHeaderCellDef>
+              Device Serial No
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span>{{ element.identifier }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- IP Address Column -->
+          <ng-container matColumnDef="ipAddress">
+            <mat-header-cell *matHeaderCellDef> IP Address </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span>{{ element.ipAddress }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Branch Code Column -->
+          <ng-container matColumnDef="branchCode">
+            <mat-header-cell *matHeaderCellDef> Branch Code </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span>{{ element.branchCode }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Date Enrolled Column -->
+          <ng-container matColumnDef="dateEnrolled">
+            <mat-header-cell *matHeaderCellDef> Date Enrolled </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span>{{ element.dateEnrolled | date: "mediumDate" }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Enrolled By Column -->
+          <ng-container matColumnDef="enrolledBy">
+            <mat-header-cell *matHeaderCellDef> Enrolled By </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span>{{ element.enrolledBy }}</span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Device Status Column -->
+          <ng-container matColumnDef="deviceStatus">
+            <mat-header-cell *matHeaderCellDef> Device Status </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span
+                [ngClass]="{
+                  active: element.state === deviceStates.active,
+                  inactive: element.state === deviceStates.inactive
+                }"
+              >
+                {{
+                  element.state === deviceStates.active
+                    ? deviceStateNames.active
+                    : deviceStateNames.inactive
+                }}
+              </span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu"
+              >
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="editDevice(element.id)">
+                  <mat-icon
+                    fontSet="material-icons-outlined"
+                    class="text-success material-icons"
+                    name="editBank"
+                  >
+                    edit
+                  </mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="moveDevice(element.id)">
+                  <mat-icon
+                    fontSet="material-icons-outlined"
+                    class="text-success material-icons"
+                    name="moveDevice"
+                  >
+                    swap_horiz
+                  </mat-icon>
+                  <span>Move Device</span>
+                </button>
+
+                <button
+                  mat-menu-item
+                  (click)="onToggle(element)"
+                  *ngIf="element.state !== deviceStates.inactive"
+                >
+                  <mat-icon
+                    fontSet="material-icons-outlined"
+                    class="text-danger material-icons"
+                    name="moveDevice"
+                  >
+                    block
+                  </mat-icon>
+                  <span>Deactivate Device</span>
+                </button>
+
+                <button
+                  mat-menu-item
+                  (click)="onToggle(element)"
+                  *ngIf="element.state === deviceStates.inactive"
+                >
+                  <mat-icon
+                    fontSet="material-icons-outlined"
+                    class="text-success material-icons"
+                    name="moveDevice"
+                  >
+                    done
+                  </mat-icon>
+                  <span>Activate Device</span>
+                </button>
+
+                <button mat-menu-item (click)="registerInstiqDevice(element)">
+                  <mat-icon
+                    fontSet="material-icons-outlined"
+                    class="text-success material-icons"
+                    name="moveDevice"
+                  >
+                    dns
+                  </mat-icon>
+                  <span>Register to TellerWorld</span>
+                </button>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="deviceColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: deviceColumns"></mat-row>
+        </mat-table>
+      </mat-card-content>
+    </mat-card>
+    <!-- - pagination  -->
+    <div class="pagination-footer" [hidden]="devices?.length < 1">
+      <mat-paginator
+        [length]="totalFilterLength"
+        [pageSize]="limit"
+        [pageSizeOptions]="[5, 10, 25, 50, 100]"
+        (page)="onPaginationChange($event)"
+        showFirstLastButton
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

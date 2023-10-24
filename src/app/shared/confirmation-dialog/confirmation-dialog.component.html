@@ -1,0 +1,30 @@
+<div id="dialog">
+  <div class="header">
+    <h1 mat-dialog-title>{{ data.title }}</h1>
+  </div>
+  <div mat-dialog-content>
+    <p class="dialog-message">{{ data.message }}</p>
+    <mat-form-field *ngIf="hasComment">
+      <mat-label>Your Comment</mat-label>
+      <input matInput [(ngModel)]="data.comment" name="comment" id="comment" />
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      mat-flat-button
+      color="warn"
+      style="margin-right: 10px;"
+      (click)="closeModal()"
+    >
+      {{ data.cancelText }}
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      [mat-dialog-close]="true"
+      (click)="confirm()"
+    >
+      {{ data.confirmText }}
+    </button>
+  </div>
+</div>

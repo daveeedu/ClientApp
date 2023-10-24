@@ -1,0 +1,114 @@
+<app-loader *ngIf="loading"></app-loader>
+<div>
+
+    <div class="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 mx-auto">
+        <mat-vertical-stepper #productStepper [linear]="true">
+            <mat-step [stepControl]="csvUploadFormGroup" [formGroup]="csvUploadFormGroup" errorMessage="CSV File is required">
+                <ng-template matStepLabel>
+                    <p class="text-bold">
+                        Upload a CSV File
+                    </p>
+                </ng-template>
+                <div class="options justify-between align-items" style="cursor: pointer;">
+                    <div class="d-flex">
+                        <mat-icon fontSet="material-icons-outlined" class="material-icons upload">assignment</mat-icon>
+                        <p (click)="uploadCsv.click()" class="text-secondary cursor-pointer">Upload a file</p>
+                    </div>
+                    <div class="d-flex">
+                        <mat-icon fontSet="material-icons-outlined" class="material-icons upload">cloud_download</mat-icon>
+                        <a href="../../../assets/Device IDs_Distribution.csv" class="text-secondary cursor-pointer">Download Template</a>
+                    </div>
+                </div>
+                <p class="cursor-pointer">{{ uploadedCSVFile?.name }}</p>
+                
+                <div class="" >
+                    <mat-card *ngFor="let record of uploadedCSVJSON">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>Branch Code:</strong> {{ record.Branch_Code }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>Branch Name:</strong> {{ record.Branch_Name }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>Device ID:</strong> {{ record.Device_ID }}</p>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>IMEI Number:</strong> {{ record.IMEI_Number }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>POS IP:</strong> {{ record.POS_IP_Addresses }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>CSM:</strong> {{ record.Csm }}</p>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>CSM Phone:</strong> {{ record.CSM_Phone }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>CSM Email:</strong> {{ record.CSM_Email }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>CSM Staff ID:</strong> {{ record.CSM_Staff_ID }}</p>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>Teller Staff Id:</strong> {{ record.Teller_Staff_ID }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>Teller Email:</strong> {{ record.Teller_Email }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>Teller Name:</strong> {{ record.Teller_Name }}</p>
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-sm">
+                                    <p class="text-danger"><strong>Teller BVN:</strong> {{ record.Teller_BVN }}</p>
+                                </div>
+                              </div>
+                        </div>
+                    </mat-card>
+                </div>
+                <div class="flex justify-end align-items" style="margin-top:50px">
+                    <button name="uploadMandatesStepNext" [disabled]="csvUploadFormGroup.invalid" (click)="sendDevicesCSV()" mat-flat-button color="primary" matStepperNext>
+                        Upload
+                    </button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+    </div>
+
+    <!-- Upload input -->
+    <input
+        type="file"
+        (change)="uploadCSVFile($event)"
+        name="uploadDoc"
+        id="uploadDoc"
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        #uploadCsv
+        (click)="uploadCsv.value = null"
+    />
+
+    <!-- Upload input -->
+    <input
+        type="file"
+        name="uploadMandate"
+        id="uploadMandate"
+        (change)="sendDevicesCSV()"
+        accept="image/*"
+        #uploadMandate
+        (click)="uploadMandate.value = null"
+    />
+
+</div>
