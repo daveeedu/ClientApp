@@ -238,7 +238,7 @@ export class ReportListingComponent implements OnInit, OnDestroy {
   onCategoryFilteringChange() {
     if(!this.filterReport){
         this.notificationService.showError(
-          'Input branch Id in search field and try again'
+          'Input Branch Code in search field and try again'
         );
       return
     }
