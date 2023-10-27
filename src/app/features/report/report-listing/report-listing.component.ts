@@ -236,6 +236,12 @@ export class ReportListingComponent implements OnInit, OnDestroy {
   }
 
   onCategoryFilteringChange() {
+    if(!this.filterReport){
+        this.notificationService.showError(
+          'Input branch Id in search field and try again'
+        );
+      return
+    }
     this.getFeedback(
       this.categoryFilteringControl.value,
       this.range.value.start?.toISOString(),
@@ -253,16 +259,20 @@ export class ReportListingComponent implements OnInit, OnDestroy {
     }
   }
 
+  
+
   doFilter = (value: string) => {
     this.filterReport = value;
-    if (this.range.value.start && this.range.value.end) {
-    this.getFeedback(
-      this.categoryFilteringControl.value,
-      this.range.value.start.toISOString(),
-      this.range.value.end.toISOString()
-    );
-    }
+
+      if (this.range.value.start && this.range.value.end) {
+        this.getFeedback(
+          this.categoryFilteringControl.value,
+          this.range.value.start.toISOString(),
+          this.range.value.end.toISOString()
+        );
+      }
   };
+
 
   ngOnDestroy() {
     if (this.dataSource) {
